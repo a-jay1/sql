@@ -93,6 +93,35 @@ select avg (mark) from table1;
 alter table table1 add cgpa int ; 
 
 
+create table t1(
+id int not null,
+name varchar(20) not null,
+age int not null,
+cgpa int not null,
+primary key (id)
+)
+
+
+insert into t1(id,name,age,cgpa)
+values (1,'a',20,10), (2,'b',22,10), (5,'e',23,10),(6,'f',24,10); 
+
+
+create table t2(
+id int not null,
+name varchar(20) not null,
+age int not null,
+cgpa int not null,
+grade char,
+primary key (id)
+)
+
+
+insert into t2(id,name,age,cgpa)
+values (1,'a',20,10), (2,'b',22,10), (3,'c',23,10),(4,'d',24,10); 
+
+
+
+
 select * from table1
 
 update table1 
