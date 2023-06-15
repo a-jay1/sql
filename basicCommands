@@ -1,0 +1,101 @@
+create database db
+
+
+use db
+
+
+create table table1 (
+id int not null,
+name varchar(20) not null,
+age int not null,
+mark int not null,
+primary key (id)
+)
+
+
+insert into table1(id,name,age,mark)
+values (1,'a',20,100), (2,'b',22,100), (3,'c',23,100),(4,'d',24,100);   
+
+
+select * from table1 where name = 'a';
+
+
+create procedure selectname @name varchar(15)
+as
+begin
+select * from table1 where name = @name;
+end
+
+
+exec selectname @name = 'b';
+
+
+create table table2(
+id int not null,
+name varchar(20) not null,
+age int not null,
+cgpa int not null,
+primary key (id)
+)
+
+
+insert into table2(id,name,age,cgpa)
+values (1,'a',20,10), (2,'b',22,10), (5,'e',23,10),(6,'f',24,10); 
+
+
+create procedure innerjoin @cgpa int 
+as
+begin 
+select * from table1 inner join table2 on table1.id = table2.id where cgpa = @cgpa ;
+end 
+
+exec innerjoin @cgpa = 10;
+             
+
+create procedure leftjoin @cgpa int 
+as
+begin 
+select * from table1 left join table2 on table1.id = table2.id where cgpa = @cgpa ;
+end 
+
+exec leftjoin @cgpa = 10;
+
+    
+select * from table1 cross join table2
+
+
+create view query as
+select * from table1 where mark >= 0 ;
+
+
+select * from query ;
+
+update table1 
+set mark = 100 where mark = 99 ;
+
+select name from table1 order by name desc ;
+
+
+select count (name) from table1;
+
+   
+select distinct count (name) from table1;
+
+
+
+select sum (mark) from table1;
+
+
+
+select avg (mark) from table1;
+
+
+alter table table1 add cgpa int ; 
+
+
+select * from table1
+
+update table1 
+set cgpa = 10 where cgpa is null;
+
+
