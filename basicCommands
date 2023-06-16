@@ -127,4 +127,122 @@ select * from table1
 update table1 
 set cgpa = 10 where cgpa is null;
 
+create database db
+
+
+create table table1 (
+id int identity(1,1) primary key ,
+name varchar(50),   
+age int , 
+mark int ,
+);
+
+
+insert into table1 ( name, age, mark)
+values ('a',20,39),('b',19,65),('c',18,80),('d',20,76),('e',21,94),('f',20,70) ;
+
+
+create procedure sp4
+as 
+begin 
+
+create table #temp (
+id int not null ,
+name varchar(50),
+age int , 
+mark int 
+);
+
+insert into #temp(id,name,age,mark) select id,name,age,mark from table1
+
+create table resultsheet1 (
+name varchar(50),
+grade char, 
+result varchar(5) 
+);
+
+
+insert into resultsheet1 (name , grade , result) 
+select name ,case 
+when mark >= 85 then 'a' 
+when mark >= 70 then 'b' 
+when mark >= 55 then 'c' 
+when mark >= 40 then 'd' 
+else 'f'
+end , case  
+when mark >= 50 then 'Pass' 
+else 'Fail'
+end 
+from #temp ;
+
+select * from resultsheet1 ;
+drop table #temp ;
+
+declare @passcount int ;
+select @passcount = count(result) from resultsheets where result = 'pass' ;
+
+
+declare @failcount int ;
+select @failcount = count(result) from resultsheets where result = 'fail' ;
+
+declare @Totalcount int ;
+set @totalcount = @passcount + @failcount ;
+
+if @passcount > @failcount 
+begin
+	print'More passed students';
+	print'count :'+cast(@passcount as varchar(5))+'/'+cast(@totalcount as varchar(5));
+end
+else 
+begin
+	print'More failed students';
+	print'count :'+cast(@failcount as varchar(5))+'/'+cast(@totalcount as varchar(5));
+end
+
+create index indexx on resultsheet1(grade);
+
+select * from resultsheet1;
+
+end ;
+
+drop procedure sp4
+
+exec sp4
+
+
+
+select * from resultsheet1
+
+create table category( name varchar(50) ,
+  grade char ,
+  result varchar(50) ,
+  category varchar(50) 
+)
+
+select * from category
+select * from resultsheet1
+
+
+insert into category select
+  name , grade , result  ,
+  case 
+	when grade < 'c' then 'category 1'
+	else 'category 2'
+end
+from resultsheet1 ;
+
+
+create function counttable()
+returns int
+as
+begin
+	declare @c int ;
+
+	select @c = count(*) from resultsheet1 ;
+	
+	return @c;
+end ;
+
+
+print dbo.counttable();
 
